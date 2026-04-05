@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QuickKart | Groceries in 10 Minutes</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    background:#f7f7f7;
+}
+
+/* 🔥 subtle motion gradient */
+body::before{
+    content:'';
+    position:fixed;
+    width:200%;
+    height:200%;
+    background: linear-gradient(120deg, #fff200, #ffea00, #fff59d);
+    animation: moveBg 12s linear infinite;
+    z-index:-1;
+    opacity:0.3;
+}
+
+@keyframes moveBg{
+    0%{transform:translate(-10%,-10%)}
+    50%{transform:translate(10%,10%)}
+    100%{transform:translate(-10%,-10%)}
+}
+
+/* HEADER */
+header{
+    background:#fff200;
+    padding:12px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-weight:700;
+    font-size:22px;
+}
+
+.search{
+    flex:1;
+    margin:0 20px;
+}
+
+.search input{
+    width:100%;
+    padding:8px;
+    border-radius:8px;
+    border:none;
+}
+
+.cart{
+    font-weight:600;
+}
+
+/* CATEGORY BAR */
+.categories{
+    display:flex;
+    gap:10px;
+    padding:10px 20px;
+    overflow-x:auto;
+    background:white;
+}
+
+.cat{
+    padding:6px 14px;
+    border-radius:20px;
+    background:#eee;
+    font-size:14px;
+    cursor:pointer;
+}
+
+.cat:hover{
+    background:#ddd;
+}
+
+/* PRODUCT GRID */
+.container{
+    padding:20px;
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap:20px;
+}
+
+/* CARD */
+.card{
+    background:white;
+    border-radius:12px;
+    padding:12px;
+    transition:0.3s;
+    position:relative;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* DELIVERY BADGE */
+.badge{
+    position:absolute;
+    top:10px;
+    left:10px;
+    background:#00c853;
+    color:white;
+    font-size:11px;
+    padding:3px 6px;
+    border-radius:5px;
+}
+
+/* IMAGE */
+.card img{
+    width:100%;
+    height:120px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+/* TEXT */
+.card h3{
+    font-size:15px;
+    margin:8px 0 2px;
+}
+
+.weight{
+    font-size:12px;
+    color:#777;
+}
+
+.price{
+    font-weight:600;
+    margin-top:4px;
+}
+
+/* BUTTON */
+.add{
+    margin-top:8px;
+    width:100%;
+    padding:6px;
+    border:1px solid #00c853;
+    color:#00c853;
+    background:white;
+    border-radius:6px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.add:hover{
+    background:#00c853;
+    color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">⚡ QuickKart</div>
+    <div class="search">
+        <input type="text" placeholder="Search for groceries...">
+    </div>
+    <div class="cart">🛒 Cart</div>
+</header>
+
+<div class="categories">
+    <div class="cat">Fruits</div>
+    <div class="cat">Vegetables</div>
+    <div class="cat">Dairy</div>
+    <div class="cat">Snacks</div>
+    <div class="cat">Beverages</div>
+    <div class="cat">Bakery</div>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <div class="badge">10 min</div>
+        <img src="https://images.unsplash.com/photo-1567306226416-28f0efdc88ce">
+        <h3>Fresh Bananas</h3>
+        <p class="weight">1 dozen</p>
+        <p class="price">₹60</p>
+        <button class="add">ADD</button>
+    </div>
+
+    <div class="card">
+        <div class="badge">10 min</div>
+        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b">
+        <h3>Amul Milk</h3>
+        <p class="weight">1 litre</p>
+        <p class="price">₹60</p>
+        <button class="add">ADD</button>
+    </div>
+
+    <div class="card">
+        <div class="badge">8 min</div>
+        <img src="https://images.unsplash.com/photo-1604908176997-4316b8dbb1b2">
+        <h3>White Bread</h3>
+        <p class="weight">400g</p>
+        <p class="price">₹40</p>
+        <button class="add">ADD</button>
+    </div>
+
+    <div class="card">
+        <div class="badge">12 min</div>
+        <img src="https://images.unsplash.com/photo-1585238342024-78d387f4a707">
+        <h3>Farm Eggs</h3>
+        <p class="weight">12 pcs</p>
+        <p class="price">₹90</p>
+        <button class="add">ADD</button>
+    </div>
+
+    <div class="card">
+        <div class="badge">9 min</div>
+        <img src="https://images.unsplash.com/photo-1604908554025-5b6c6e2b91b8">
+        <h3>Tomatoes</h3>
+        <p class="weight">1 kg</p>
+        <p class="price">₹50</p>
+        <button class="add">ADD</button>
+    </div>
+
+    <div class="card">
+        <div class="badge">11 min</div>
+        <img src="https://images.unsplash.com/photo-1580910051074-3eb694886505">
+        <h3>Potatoes</h3>
+        <p class="weight">1 kg</p>
+        <p class="price">₹35</p>
+        <button class="add">ADD</button>
+    </div>
+
+</div>
+
+</body>
+</html>
