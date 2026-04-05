@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>FIFA World Cup 2026™ Ticket Portal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Montserrat', sans-serif;
+    color:white;
+    overflow-x:hidden;
+    background:black;
+}
+
+/* 🔥 MOVING STADIUM LIGHT EFFECT */
+body::before{
+    content:'';
+    position:fixed;
+    width:200%;
+    height:200%;
+    background: radial-gradient(circle, rgba(0,255,150,0.2), transparent 60%);
+    animation: moveLight 8s linear infinite;
+    z-index:-1;
+}
+
+@keyframes moveLight{
+    0%{transform:translate(-20%,-20%);}
+    50%{transform:translate(20%,20%);}
+    100%{transform:translate(-20%,-20%);}
+}
+
+/* HERO */
+.hero{
+    height:60vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)),
+    url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2') center/cover;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.hero h1{
+    font-family:'Oswald', sans-serif;
+    font-size:60px;
+    letter-spacing:3px;
+}
+
+.hero p{
+    margin-top:10px;
+    color:#ccc;
+    font-size:14px;
+}
+
+/* INFO TEXT */
+.info{
+    max-width:800px;
+    margin:40px auto;
+    text-align:center;
+    line-height:1.7;
+    color:#ddd;
+}
+
+/* FORM */
+.container{
+    max-width:500px;
+    margin:40px auto;
+    padding:30px;
+    border-radius:10px;
+    background: rgba(20,20,20,0.9);
+    box-shadow:0 0 20px rgba(0,255,150,0.3);
+    animation: fade 1.5s ease;
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(30px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    font-family:'Oswald', sans-serif;
+    letter-spacing:2px;
+}
+
+/* INPUT */
+label{
+    margin-top:12px;
+    display:block;
+    font-size:13px;
+}
+
+input, select{
+    width:100%;
+    padding:8px;
+    margin-top:5px;
+    border:none;
+    border-radius:5px;
+    background:#111;
+    color:white;
+}
+
+input:focus, select:focus{
+    outline:none;
+    box-shadow:0 0 6px #00ff99;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    background:#00ff99;
+    border:none;
+    color:black;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#00cc77;
+    transform:scale(1.05);
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:30px;
+    margin-top:40px;
+    color:#777;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>FIFA WORLD CUP 2026™</h1>
+    <p>Official Stadium Ticket Registration Portal</p>
+</div>
+
+<!-- INFO -->
+<div class="info">
+    Experience the world's greatest football tournament like never before.  
+    Witness legendary teams, iconic stadiums, and unforgettable moments live.  
+    Secure your seat and become part of football history as nations compete for glory in FIFA World Cup 2026™.
+</div>
+
+<!-- FORM -->
+<div class="container">
+
+    <h2>Register for Tickets</h2>
+
+    <form>
+
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter your name" required>
+
+        <label>Email Address</label>
+        <input type="email" placeholder="Enter your email" required>
+
+        <label>Mobile Number</label>
+        <input type="tel" placeholder="Enter your number" required>
+
+        <label>Select Match Stage</label>
+        <select>
+            <option>Group Stage</option>
+            <option>Quarter Final</option>
+            <option>Semi Final</option>
+            <option>Final Match</option>
+        </select>
+
+        <label>Select Host City</label>
+        <select>
+            <option>New York</option>
+            <option>Los Angeles</option>
+            <option>Toronto</option>
+            <option>Mexico City</option>
+        </select>
+
+        <label>Ticket Category</label>
+        <select>
+            <option>VIP</option>
+            <option>Premium</option>
+            <option>Standard</option>
+        </select>
+
+        <label>Number of Tickets</label>
+        <input type="number" placeholder="1-10">
+
+        <button type="submit">Book Tickets Now</button>
+
+    </form>
+
+</div>
+
+<footer>
+    © FIFA World Cup 2026™ | Ticketing Portal
+</footer>
+
+</body>
+</html>
