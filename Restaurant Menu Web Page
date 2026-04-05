@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Bastian | Fine Dining Menu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Open Sans', sans-serif;
+    background:#0c0c0c;
+    color:#f5f5f5;
+}
+
+/* HEADER */
+.header{
+    text-align:center;
+    padding:90px 20px;
+}
+
+.header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-size:65px;
+    color:#d4af37;
+    letter-spacing:4px;
+}
+
+.header p{
+    margin-top:10px;
+    color:#aaa;
+    letter-spacing:2px;
+}
+
+/* SECTION */
+.section{
+    max-width:900px;
+    margin:70px auto;
+    padding:0 20px;
+}
+
+.section h2{
+    text-align:center;
+    margin-bottom:50px;
+    font-family:'Cormorant Garamond', serif;
+    color:#d4af37;
+    font-size:34px;
+}
+
+/* MENU ITEM */
+.item{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:30px;
+    border-bottom:1px solid #333;
+    padding-bottom:12px;
+}
+
+.item h3{
+    font-size:19px;
+}
+
+.item p{
+    font-size:13px;
+    color:#aaa;
+}
+
+.price{
+    color:#d4af37;
+    font-weight:bold;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:50px;
+    border-top:1px solid #333;
+    color:#777;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <h1>THE BASTIAN</h1>
+    <p>FINE DINING • ITALIAN & CONTINENTAL</p>
+</div>
+
+<!-- STARTERS -->
+<div class="section">
+    <h2>Starters</h2>
+
+    <div class="item">
+        <div>
+            <h3>Bruschetta Classica</h3>
+            <p>Toasted bread with tomato, basil & olive oil</p>
+        </div>
+        <div class="price">₹320</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Creamy Mushroom Soup</h3>
+            <p>Rich soup with herbs and fresh cream</p>
+        </div>
+        <div class="price">₹300</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Caesar Salad</h3>
+            <p>Crisp lettuce, parmesan & signature dressing</p>
+        </div>
+        <div class="price">₹280</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Garlic Bread with Cheese</h3>
+            <p>Oven baked bread topped with cheese</p>
+        </div>
+        <div class="price">₹250</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Caprese Salad</h3>
+            <p>Fresh mozzarella, tomatoes & basil</p>
+        </div>
+        <div class="price">₹350</div>
+    </div>
+</div>
+
+<!-- MAIN COURSE -->
+<div class="section">
+    <h2>Main Course</h2>
+
+    <div class="item">
+        <div>
+            <h3>Grilled Chicken Steak</h3>
+            <p>Served with butter vegetables & sauce</p>
+        </div>
+        <div class="price">₹750</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Paneer Butter Masala</h3>
+            <p>Classic Indian creamy tomato gravy</p>
+        </div>
+        <div class="price">₹550</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Spaghetti Aglio e Olio</h3>
+            <p>Italian pasta with garlic & olive oil</p>
+        </div>
+        <div class="price">₹620</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Margherita Pizza</h3>
+            <p>Classic Italian pizza with mozzarella</p>
+        </div>
+        <div class="price">₹680</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Vegetable Lasagna</h3>
+            <p>Layered pasta with vegetables & cheese</p>
+        </div>
+        <div class="price">₹700</div>
+    </div>
+</div>
+
+<!-- DESSERT -->
+<div class="section">
+    <h2>Desserts</h2>
+
+    <div class="item">
+        <div>
+            <h3>Tiramisu</h3>
+            <p>Classic Italian dessert with coffee & mascarpone</p>
+        </div>
+        <div class="price">₹400</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Chocolate Lava Cake</h3>
+            <p>Warm cake with molten chocolate center</p>
+        </div>
+        <div class="price">₹350</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Panna Cotta</h3>
+            <p>Italian cream dessert with berry topping</p>
+        </div>
+        <div class="price">₹370</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Vanilla Cheesecake</h3>
+            <p>Creamy cheesecake with topping</p>
+        </div>
+        <div class="price">₹320</div>
+    </div>
+
+    <div class="item">
+        <div>
+            <h3>Gelato Selection</h3>
+            <p>Assorted Italian ice creams</p>
+        </div>
+        <div class="price">₹300</div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 THE BASTIAN | Luxury Dining Experience</p>
+</footer>
+
+</body>
+</html>
