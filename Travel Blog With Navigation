@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WanderScape Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#a18cd1,#84fab0);
+    background-size:400% 400%;
+    animation:bgMove 12s ease infinite;
+    scroll-behavior:smooth;
+}
+
+/* 🌈 Animated Background */
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* 🔥 Scroll Progress Bar */
+.progress{
+    position:fixed;
+    top:0;
+    left:0;
+    height:5px;
+    background:#00e0ff;
+    width:0%;
+    z-index:2000;
+}
+
+/* 🧭 NAVBAR */
+nav{
+    position:fixed;
+    width:100%;
+    top:0;
+    display:flex;
+    justify-content:space-between;
+    padding:15px 40px;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(12px);
+    z-index:1000;
+}
+
+nav h2{
+    color:white;
+}
+
+nav ul{
+    display:flex;
+    gap:25px;
+    list-style:none;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    position:relative;
+    padding:5px;
+}
+
+/* 🔵 underline animation */
+nav a::after{
+    content:"";
+    position:absolute;
+    width:0%;
+    height:2px;
+    left:0;
+    bottom:0;
+    background:#00e0ff;
+    transition:0.3s;
+}
+
+nav a:hover::after{
+    width:100%;
+}
+
+/* 🎥 HERO */
+.hero{
+    height:100vh;
+    background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+    animation:zoom 20s infinite alternate;
+}
+
+@keyframes zoom{
+    from{background-size:100%;}
+    to{background-size:110%;}
+}
+
+.hero h1{
+    font-size:65px;
+    animation:fadeIn 2s ease;
+}
+
+.hero button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    background:#00e0ff;
+    color:black;
+    border-radius:25px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.hero button:hover{
+    transform:scale(1.1);
+}
+
+/* 🌟 CARDS */
+.cards{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:30px;
+    padding:80px 20px;
+}
+
+.card{
+    width:260px;
+    background:rgba(255,255,255,0.3);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    overflow:hidden;
+    text-decoration:none;
+    color:black;
+    transition:0.4s;
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-10px);}
+}
+
+.card:hover{
+    transform:scale(1.08);
+}
+
+.card img{
+    width:100%;
+    height:170px;
+    object-fit:cover;
+}
+
+.card h3{
+    padding:10px;
+}
+
+.card p{
+    padding:0 10px 15px;
+}
+
+/* 📄 DETAILS */
+.detail{
+    padding:80px 20px;
+    text-align:center;
+    background:white;
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s;
+}
+
+.detail.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.detail img{
+    width:80%;
+    max-width:600px;
+    border-radius:15px;
+    margin:20px 0;
+}
+
+/* FOOTER */
+footer{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+/* Animations */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(-20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- NAV -->
+<nav>
+    <h2>🌍 WanderScape</h2>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#places">Destinations</a></li>
+        <li><a href="#paris">Paris</a></li>
+        <li><a href="#goa">Goa</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div>
+        <h1>Explore The World</h1>
+        <button onclick="scrollToPlaces()">Start Journey</button>
+    </div>
+</section>
+
+<!-- CARDS -->
+<section class="cards" id="places">
+<a href="#paris" class="card"><img src="https://images.unsplash.com/photo-1549887534-3db6d5e1f47c"><h3>Paris</h3><p>City of Love</p></a>
+<a href="#maldives" class="card"><img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad"><h3>Maldives</h3><p>Luxury Escape</p></a>
+<a href="#switzerland" class="card"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470"><h3>Switzerland</h3><p>Heaven</p></a>
+<a href="#dubai" class="card"><img src="https://images.unsplash.com/photo-1504215680853-026ed2a45def"><h3>Dubai</h3><p>Future City</p></a>
+<a href="#goa" class="card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"><h3>Goa</h3><p>Beach Life</p></a>
+</section>
+
+<!-- DETAILS -->
+<section id="paris" class="detail"><h2>Paris</h2><img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34"><p>Romantic streets, cafes, and iconic Eiffel Tower.</p></section>
+<section id="maldives" class="detail"><h2>Maldives</h2><img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd"><p>Crystal clear water and luxury villas.</p></section>
+<section id="switzerland" class="detail"><h2>Switzerland</h2><img src="https://images.unsplash.com/photo-1505761671935-60b3a7427bad"><p>Mountains and scenic beauty.</p></section>
+<section id="dubai" class="detail"><h2>Dubai</h2><img src="https://images.unsplash.com/photo-1518684079-3c830dcef090"><p>Luxury and innovation.</p></section>
+<section id="goa" class="detail"><h2>Goa</h2><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"><p>Beaches and nightlife.</p></section>
+
+<footer>
+<p>© 2026 WanderScape Pro</p>
+</footer>
+
+<script>
+
+/* 📊 Scroll Progress */
+window.onscroll = function() {
+    let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    let scrolled = (winScroll / height) * 100;
+    document.getElementById("progress").style.width = scrolled + "%";
+
+    document.querySelectorAll('.detail').forEach(sec=>{
+        let pos = sec.getBoundingClientRect().top;
+        if(pos < window.innerHeight - 100){
+            sec.classList.add('show');
+        }
+    });
+};
+
+/* 🎯 Button Scroll */
+function scrollToPlaces(){
+    document.getElementById("places").scrollIntoView({behavior:"smooth"});
+}
+
+</script>
+
+</body>
+</html>
