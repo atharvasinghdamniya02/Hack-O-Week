@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Meteorological Matrix</title>
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #05070d;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* ===== HEX PARTICLE FIELD ===== */
+#bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.hex {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.05);
+    clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+    animation: drift 20s linear infinite;
+}
+
+@keyframes drift {
+    from { transform: translateY(0) translateX(0);}
+    to { transform: translateY(-120vh) translateX(50vw);}
+}
+
+/* ===== LAYOUT ===== */
+.container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* ===== CITY COLUMN ===== */
+.city {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: 0.5s ease-in-out;
+}
+.city:hover { flex: 1.3; }
+
+/* ===== TILE ===== */
+.tile {
+    padding: 15px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: 0.5s ease-in-out;
+}
+
+/* ===== COLORS ===== */
+.nagpur { color: #facc15; }
+.delhi { color: #22c55e; }
+.mumbai { color: #38bdf8; }
+
+/* ===== TEMP ===== */
+.temp {
+    font-size: 40px;
+    animation: pulse 3s infinite;
+}
+@keyframes pulse {
+    0%,100% { transform: scale(1);}
+    50% { transform: scale(1.05);}
+}
+
+/* ===== BAR ===== */
+.bar {
+    height: 8px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.fill {
+    height: 100%;
+    transition: width 0.5s ease-in-out;
+}
+
+/* ===== GAUGE ===== */
+.gauge {
+    display: none;
+}
+.tile:hover .bar { display: none; }
+.tile:hover .gauge { display: block; }
+
+svg {
+    width: 100%;
+    height: 80px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="bg"></div>
+
+<div class="container" id="app"></div>
+
+<script>
+
+/* ===== CREATE PARTICLES ===== */
+for(let i=0;i<120;i++){
+    let h = document.createElement("div");
+    h.className="hex";
+    h.style.left=Math.random()*100+"vw";
+    h.style.top=Math.random()*100+"vh";
+    h.style.animationDuration = (10+Math.random()*20)+"s";
+    document.getElementById("bg").appendChild(h);
+}
+
+/* ===== RANDOM DATA ===== */
+function rand(min,max){ return Math.floor(Math.random()*(max-min)+min); }
+
+const cities = [
+    {name:"Nagpur", class:"nagpur"},
+    {name:"Delhi", class:"delhi"},
+    {name:"Mumbai", class:"mumbai"}
+];
+
+const app = document.getElementById("app");
+
+cities.forEach(city=>{
+    let temp = rand(28,40);
+    let wind = rand(5,25);
+    let aqi = rand(50,200);
+    let uv = rand(1,11);
+    let rain = rand(0,100);
+    let feels = temp + rand(-2,3);
+    let pressure = rand(990,1020);
+    let cloud = rand(10,90);
+
+    let col = document.createElement("div");
+    col.className = "city "+city.class;
+
+    col.innerHTML = `
+        <div class="tile">
+            <h2>${city.name}</h2>
+            <div class="temp">${temp}°C</div>
+            <p>Wind: ${wind} km/h → NE</p>
+        </div>
+
+        <div class="tile">
+            <h3>AQI ${aqi}</h3>
+            <div class="bar">
+                <div class="fill" style="width:${aqi/2}% ; background:${aqi>150?'red':'orange'}"></div>
+            </div>
+
+            <div class="gauge">
+                <svg>
+                    <circle cx="50" cy="40" r="30" stroke="#333" stroke-width="8" fill="none"/>
+                    <circle cx="50" cy="40" r="30"
+                        stroke="currentColor"
+                        stroke-width="8"
+                        fill="none"
+                        stroke-dasharray="188"
+                        stroke-dashoffset="${188-(aqi/200)*188}"
+                        stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="tile">
+            <h3>UV ${uv}</h3>
+            <div class="bar">
+                <div class="fill" style="width:${uv*10}% ; background:yellow"></div>
+            </div>
+
+            <div class="gauge">
+                <svg>
+                    <circle cx="50" cy="40" r="30" stroke="#333" stroke-width="8" fill="none"/>
+                    <circle cx="50" cy="40" r="30"
+                        stroke="currentColor"
+                        stroke-width="8"
+                        fill="none"
+                        stroke-dasharray="188"
+                        stroke-dashoffset="${188-(uv/11)*188}"
+                        stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="tile">Rainfall: ${rain}%</div>
+        <div class="tile">Feels Like: ${feels}°C</div>
+        <div class="tile">Pressure: ${pressure} hPa</div>
+        <div class="tile">Cloud Cover: ${cloud}%</div>
+    `;
+
+    app.appendChild(col);
+});
+
+</script>
+
+</body>
+</html>
