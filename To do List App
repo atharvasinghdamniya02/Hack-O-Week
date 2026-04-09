@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowState</title>
+
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top left, #0f172a, #020617);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* MAIN CONTAINER */
+.app {
+    width: 800px;
+    height: 550px;
+    display: flex;
+    gap: 15px;
+}
+
+/* GLASS */
+.glass {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 180px;
+    padding: 20px;
+    color: white;
+}
+
+/* MAIN */
+.main {
+    flex: 1;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* INPUT */
+.input-area {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.input-area input, select {
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+.add-btn {
+    background: #34d399;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* TASK */
+.tasks {
+    margin-top: 15px;
+    overflow-y: auto;
+}
+
+.task {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.task.done {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+/* PRIORITY COLORS */
+.low { background: #34d399; color: black; }
+.high { background: #fb923c; color: black; }
+
+/* PROGRESS RING */
+svg {
+    transform: rotate(-90deg);
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <div class="glass sidebar">
+        <h3>Folders</h3>
+        <p>🏠 Personal</p>
+        <p>💼 Work</p>
+        <p>📚 Study</p>
+    </div>
+
+    <!-- MAIN -->
+    <div class="glass main">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h2>FlowState</h2>
+
+            <svg width="60" height="60">
+                <circle cx="30" cy="30" r="25" stroke="#1e293b" stroke-width="5" fill="none"/>
+                <circle id="progress" cx="30" cy="30" r="25"
+                    stroke="#34d399"
+                    stroke-width="5"
+                    fill="none"
+                    stroke-dasharray="157"
+                    stroke-dashoffset="157"
+                    stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <!-- INPUT -->
+        <div class="input-area">
+            <input id="taskInput" placeholder="Enter task">
+            <select id="priority">
+                <option value="low">Low</option>
+                <option value="high">High</option>
+            </select>
+            <button class="add-btn" onclick="addTask()">Add</button>
+        </div>
+
+        <!-- TASK LIST -->
+        <div class="tasks" id="taskList"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+/* SAVE */
+function save(){
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+/* ADD */
+function addTask(){
+    let text = document.getElementById("taskInput").value;
+    let priority = document.getElementById("priority").value;
+
+    if(text === "") return;
+
+    tasks.push({text, priority, done:false});
+    document.getElementById("taskInput").value = "";
+    save();
+    render();
+}
+
+/* TOGGLE */
+function toggle(i){
+    tasks[i].done = !tasks[i].done;
+    save();
+    render();
+}
+
+/* DELETE */
+function removeTask(i){
+    tasks.splice(i,1);
+    save();
+    render();
+}
+
+/* RENDER */
+function render(){
+    let list = document.getElementById("taskList");
+    list.innerHTML = "";
+
+    let doneCount = 0;
+
+    tasks.forEach((t,i)=>{
+        if(t.done) doneCount++;
+
+        list.innerHTML += `
+        <div class="task glass ${t.done ? 'done':''}">
+            <span onclick="toggle(${i})" style="cursor:pointer;">
+                ${t.text}
+                <small class="${t.priority}" style="padding:3px 6px; border-radius:6px; margin-left:5px;">
+                    ${t.priority}
+                </small>
+            </span>
+            <button onclick="removeTask(${i})">❌</button>
+        </div>`;
+    });
+
+    /* UPDATE PROGRESS */
+    let percent = tasks.length ? doneCount / tasks.length : 0;
+    let offset = 157 - (157 * percent);
+    document.getElementById("progress").style.strokeDashoffset = offset;
+}
+
+/* INIT */
+render();
+
+</script>
+
+</body>
+</html>
