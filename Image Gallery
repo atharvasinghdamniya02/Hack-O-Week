@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kinetic Photography Showcase</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* ===== KINETIC BACKGROUND ===== */
+body::before {
+    content: "";
+    position: fixed;
+    width: 300%;
+    height: 300%;
+    background:
+        radial-gradient(circle at 20% 30%, #312e81, transparent),
+        radial-gradient(circle at 70% 40%, #0891b2, transparent),
+        radial-gradient(circle at 50% 80%, #7c3aed, transparent);
+    animation: flow 25s linear infinite;
+    z-index: -1;
+}
+
+@keyframes flow {
+    0% { transform: translate(0,0) rotate(0deg);}
+    50% { transform: translate(-20%, -10%) rotate(180deg);}
+    100% { transform: translate(0,0) rotate(360deg);}
+}
+
+/* ===== GRID ===== */
+.container {
+    column-count: 2;
+    column-gap: 15px;
+    padding: 20px;
+}
+
+/* ===== CARD ===== */
+.card {
+    position: relative;
+    margin-bottom: 15px;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    break-inside: avoid;
+    animation: breathe 6s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%,100% { transform: scale(1);}
+    50% { transform: scale(1.02);}
+}
+
+.card img {
+    width: 100%;
+    display: block;
+    transition: 0.4s;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card:hover {
+    box-shadow: 0 0 25px #22d3ee;
+}
+
+/* META */
+.meta {
+    position: absolute;
+    bottom: -50px;
+    width: 100%;
+    text-align: center;
+    background: rgba(0,0,0,0.6);
+    transition: 0.4s;
+    padding: 10px;
+}
+
+.card:hover .meta {
+    bottom: 0;
+}
+
+/* ===== LIGHTBOX ===== */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgba(0,0,0,0.7);
+}
+
+.lightbox img {
+    max-width: 80%;
+    max-height: 70%;
+    animation: zoom 0.4s ease-out;
+}
+
+@keyframes zoom {
+    from { transform: scale(0.8); opacity: 0;}
+    to { transform: scale(1); opacity:1;}
+}
+
+/* CONTROLS */
+.controls {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.btn {
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+}
+
+/* CLOSE */
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.close:hover {
+    transform: rotate(180deg);
+}
+
+/* CAPTION */
+.caption {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="grid"></div>
+
+<div class="lightbox" id="lightbox">
+    <div class="close" onclick="closeBox()">✖</div>
+
+    <div class="controls">
+        <div class="btn" onclick="prev()">⬅</div>
+        <div class="btn" onclick="next()">➡</div>
+    </div>
+
+    <img id="lightImg">
+    <div class="caption" id="caption"></div>
+</div>
+
+<script>
+
+/* DATA */
+const data = [];
+for(let i=1;i<=10;i++){
+    data.push({
+        src:`https://picsum.photos/500?random=${i}`,
+        title:`Artwork ${i}`,
+        artist:`Artist ${i}`
+    });
+}
+
+let current = 0;
+const grid = document.getElementById("grid");
+
+/* CREATE GRID */
+data.forEach((d,i)=>{
+    let card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+        <img src="${d.src}">
+        <div class="meta">${d.title}<br><small>${d.artist}</small></div>
+    `;
+
+    card.onclick = ()=> openBox(i);
+
+    grid.appendChild(card);
+});
+
+/* LIGHTBOX FUNCTIONS */
+function openBox(i){
+    current = i;
+    document.getElementById("lightbox").style.display="flex";
+    update();
+}
+
+function closeBox(){
+    document.getElementById("lightbox").style.display="none";
+}
+
+function next(){
+    current = (current+1)%data.length;
+    update();
+}
+
+function prev(){
+    current = (current-1+data.length)%data.length;
+    update();
+}
+
+/* TYPEWRITER EFFECT */
+function typeText(text){
+    let el = document.getElementById("caption");
+    el.innerHTML="";
+    let i=0;
+    let interval = setInterval(()=>{
+        el.innerHTML += text[i];
+        i++;
+        if(i>=text.length) clearInterval(interval);
+    },20);
+}
+
+/* UPDATE */
+function update(){
+    let d = data[current];
+    document.getElementById("lightImg").src = d.src;
+    typeText(`${d.title} — ${d.artist}`);
+}
+
+</script>
+
+</body>
+</html>
