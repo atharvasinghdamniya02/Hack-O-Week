@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aethelgard Library</title>
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- TAILWIND -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- ICONS -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+/* ===== BACKGROUND ===== */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #2b1d17, #020617);
+    overflow-x: hidden;
+    color: white;
+}
+
+/* DUST PARTICLES */
+.particle {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(0);}
+    to { transform: translateY(-120vh);}
+}
+
+/* GLASS CARD */
+.card {
+    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.4s;
+    transform-style: preserve-3d;
+}
+
+.card:hover {
+    transform: rotateY(8deg) scale(1.02);
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+/* PROGRESS */
+.progress {
+    height: 6px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+}
+
+/* SEARCH ANIMATION */
+.fade-out {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+/* TOAST */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    backdrop-filter: blur(20px);
+    background: rgba(255,0,0,0.2);
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: none;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+}
+
+.modal-box {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(20px);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="particles"></div>
+
+<div class="p-6">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-3xl font-[Playfair_Display]">Aethelgard Library</h1>
+        <button onclick="openModal()" class="bg-white/10 p-2 rounded-full">➕</button>
+    </div>
+
+    <!-- SEARCH -->
+    <input id="search" oninput="searchBooks()" placeholder="Search books..."
+        class="w-full p-2 mb-4 bg-black/30 rounded-lg">
+
+    <!-- GRID -->
+    <div id="grid" class="grid md:grid-cols-3 gap-4"></div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <input id="bookInput" placeholder="Book Title" class="p-2 w-full mb-2 bg-black/40">
+        <button onclick="addBook()" class="bg-green-400 text-black px-4 py-2 rounded">Donate</button>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">Library Full</div>
+
+<script>
+
+/* ===== PARTICLES ===== */
+for(let i=0;i<100;i++){
+ let p=document.createElement("div");
+ p.className="particle";
+ p.style.left=Math.random()*100+"vw";
+ p.style.animationDuration=(10+Math.random()*20)+"s";
+ document.getElementById("particles").appendChild(p);
+}
+
+/* ===== DATA ===== */
+let books=[
+ "The Odyssey","1984","Dune","Hamlet","Inferno"
+];
+
+/* ===== RENDER ===== */
+function render(){
+ let grid=document.getElementById("grid");
+ grid.innerHTML="";
+
+ books.forEach((b,i)=>{
+   let progress=Math.floor(Math.random()*100);
+
+   grid.innerHTML+=`
+   <div class="card p-4 rounded-xl">
+     <h2 class="font-[Playfair_Display] text-xl">${b}</h2>
+
+     <div class="progress mt-3">
+        <div style="width:${progress}%; background:white; height:100%;"></div>
+     </div>
+
+     <button onclick="removeBook(${i})" class="mt-3 text-red-400">Check Out</button>
+   </div>`;
+ });
+}
+
+/* ===== ADD ===== */
+function addBook(){
+ if(books.length>=10){
+   let t=document.getElementById("toast");
+   t.style.display="block";
+   setTimeout(()=>t.style.display="none",2000);
+   return;
+ }
+
+ let val=document.getElementById("bookInput").value;
+ if(val){
+   books.push(val);
+   document.getElementById("modal").style.display="none";
+   render();
+ }
+}
+
+/* ===== REMOVE ===== */
+function removeBook(i){
+ books.splice(i,1);
+ render();
+}
+
+/* ===== SEARCH ===== */
+function searchBooks(){
+ let q=document.getElementById("search").value.toLowerCase();
+ let cards=document.querySelectorAll(".card");
+
+ cards.forEach((c,i)=>{
+   if(!books[i].toLowerCase().includes(q)){
+     c.classList.add("fade-out");
+   } else {
+     c.classList.remove("fade-out");
+   }
+ });
+}
+
+/* MODAL */
+function openModal(){
+ document.getElementById("modal").style.display="flex";
+}
+
+/* INIT */
+render();
+
+</script>
+
+</body>
+</html>
