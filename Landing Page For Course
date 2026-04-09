@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DevForge</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+
+/* ===== BASE ===== */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #05070d;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* ===== MATRIX BG ===== */
+#matrix {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+}
+
+.stream {
+    position: absolute;
+    font-size: 12px;
+    color: rgba(0,255,150,0.15);
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    from { transform: translateY(-100vh);}
+    to { transform: translateY(100vh);}
+}
+
+/* ===== HERO ===== */
+.hero h1 {
+    font-family: 'Space Grotesk';
+}
+
+/* ===== BUTTON ===== */
+.glow-btn {
+    background: linear-gradient(90deg, cyan, #00ff99);
+    color: black;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.glow-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px cyan;
+}
+
+/* ===== MODAL ===== */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+}
+
+.modal-box {
+    width: 320px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,255,255,0.2);
+    padding: 20px;
+    border-radius: 20px;
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity:0;}
+    to { transform: scale(1); opacity:1;}
+}
+
+/* INPUT */
+.input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 10px;
+    border: none;
+    background: #111;
+    color: white;
+}
+
+/* RESPONSE */
+.response {
+    margin-top: 10px;
+    font-size: 14px;
+    color: cyan;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MATRIX -->
+<div id="matrix"></div>
+
+<!-- HERO -->
+<section class="hero h-screen flex items-center justify-center text-center">
+    <div>
+        <h1 class="text-6xl mb-4">FORGE YOUR FUTURE IN CODE</h1>
+        <p class="text-gray-400 mb-6">Elite project-based bootcamp</p>
+        <button onclick="openForm()" class="glow-btn">Apply Now</button>
+    </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <h2 class="text-xl mb-3 font-[Space_Grotesk]">Join DevForge</h2>
+
+        <input id="name" class="input" placeholder="Your Name">
+        <input id="email" class="input" placeholder="Email">
+
+        <select id="level" class="input" onchange="reactLevel()">
+            <option value="">Experience Level</option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+        </select>
+
+        <button onclick="submitForm()" class="glow-btn mt-3 w-full">Submit</button>
+        <button onclick="closeForm()" class="mt-2 text-red-400 w-full">Cancel</button>
+
+        <div id="response" class="response"></div>
+    </div>
+</div>
+
+<script>
+
+/* MATRIX */
+const codes=["<div>","function()","const x","return true","flex","grid"];
+for(let i=0;i<50;i++){
+ let el=document.createElement("div");
+ el.className="stream";
+ el.innerText=codes[Math.floor(Math.random()*codes.length)];
+ el.style.left=Math.random()*100+"vw";
+ el.style.animationDuration=(5+Math.random()*10)+"s";
+ document.getElementById("matrix").appendChild(el);
+}
+
+/* MODAL */
+function openForm(){
+ document.getElementById("modal").style.display="flex";
+}
+function closeForm(){
+ document.getElementById("modal").style.display="none";
+}
+
+/* REACT */
+function reactLevel(){
+ let level=document.getElementById("level").value;
+ let res=document.getElementById("response");
+
+ if(level==="Beginner") res.innerText="We’ll build you from zero 🚀";
+ else if(level==="Intermediate") res.innerText="Time to level up ⚡";
+ else if(level==="Advanced") res.innerText="Elite dev mode 🔥";
+}
+
+/* SUBMIT */
+function submitForm(){
+ let name=document.getElementById("name").value;
+ let res=document.getElementById("response");
+
+ if(name===""){
+     res.innerText="Enter your name";
+     return;
+ }
+
+ res.innerText="Welcome "+name+" — you're in 🚀";
+}
+
+</script>
+
+</body>
+</html>
