@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apollo Bank</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #05070d;
+    color: #eaeaea;
+    overflow-x: hidden;
+}
+
+/* 🌌 Background motion */
+.bg {
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(120deg, #05070d, #0b132b, #05070d);
+    animation: bgMove 25s infinite ease-in-out;
+    z-index: -2;
+}
+@keyframes bgMove {
+    50% { transform: translate(-5%, -5%); }
+}
+
+.light {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 40%, rgba(255,215,0,0.08), transparent 40%);
+    animation: drift 12s infinite;
+    z-index: -1;
+}
+@keyframes drift {
+    50% { transform: translateX(40px); }
+}
+
+/* Header */
+.header {
+    padding: 20px 50px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.logo svg {
+    width: 35px;
+}
+.brand {
+    font-family: 'Playfair Display';
+    font-size: 20px;
+}
+.tag {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+/* Layout */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+}
+.panel {
+    margin-bottom: 50px;
+}
+h2 {
+    font-family: 'Playfair Display';
+}
+
+/* Token */
+.token {
+    font-size: 70px;
+    color: gold;
+    margin: 15px 0;
+    transition: 0.3s;
+}
+
+/* Buttons */
+button {
+    padding: 10px 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 6px;
+    background: gold;
+    color: black;
+    cursor: pointer;
+    transition: 0.3s;
+}
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* Cards */
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.card {
+    flex: 1;
+    min-width: 220px;
+    padding: 20px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 25px rgba(255,215,0,0.2);
+}
+
+.black { background: linear-gradient(135deg, #111, #000); }
+.gold { background: linear-gradient(135deg, #b8962e, #ffd700); color: black; }
+
+/* Queue */
+.queue {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Offers */
+.offers {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+.offer {
+    background: rgba(0,0,0,0.8);
+    border-left: 3px solid gold;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    animation: fadeIn 0.5s ease;
+}
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(-10px);}
+    to {opacity:1;}
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 20px;
+    opacity: 0.5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+<div class="light"></div>
+
+<header class="header">
+    <div class="logo">
+        <!-- Apollo Sun Logo -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="gold" stroke-width="1.5">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+        </svg>
+        <div>
+            <div class="brand">APOLLO BANK</div>
+            <div class="tag">Precision. Power. Illumination.</div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- ATM -->
+    <section class="panel">
+        <h2>ATM Queue</h2>
+        <div id="currentToken" class="token">—</div>
+
+        <button onclick="getToken()">Get Token</button>
+        <button onclick="nextCustomer()">Next Customer</button>
+
+        <div id="queueList" class="queue"></div>
+    </section>
+
+    <!-- Cards -->
+    <section class="panel">
+        <h2>Premium Cards</h2>
+        <div class="cards">
+            <div class="card black">
+                Apollo Black Credit Card<br>
+                Limit: ₹15,00,000<br>
+                5% Cashback
+            </div>
+
+            <div class="card gold">
+                Apollo Gold Debit Card<br>
+                Global Access<br>
+                ₹3L Daily Limit
+            </div>
+        </div>
+    </section>
+
+    <!-- Loans -->
+    <section class="panel">
+        <h2>Loans</h2>
+        <div class="cards">
+            <div class="card">Personal Loan<br>Instant Approval</div>
+            <div class="card">Home Loan<br>7.2% Interest</div>
+            <div class="card">Business Loan<br>Custom Plans</div>
+        </div>
+    </section>
+
+</main>
+
+<div id="offers" class="offers"></div>
+
+<footer class="footer">
+    APOLLO BANK • Designed for the Elite
+</footer>
+
+<script>
+let queue = [];
+let token = 0;
+
+function getToken() {
+    token++;
+    queue.push(token);
+    render();
+    showOffer("🔥 Token Generated");
+}
+
+function nextCustomer() {
+    if (queue.length > 0) {
+        let current = queue.shift();
+        document.getElementById("currentToken").innerText = current;
+        render();
+        glow();
+        showOffer("⚡ Now Serving #" + current);
+    }
+}
+
+function render() {
+    document.getElementById("queueList").innerText =
+        "Queue: " + queue.join(", ");
+}
+
+/* Glow effect */
+function glow() {
+    let el = document.getElementById("currentToken");
+    el.style.textShadow = "0 0 20px gold";
+    setTimeout(() => el.style.textShadow = "none", 500);
+}
+
+/* Offers */
+function showOffer(text) {
+    let div = document.createElement("div");
+    div.className = "offer";
+    div.innerText = text;
+
+    document.getElementById("offers").appendChild(div);
+
+    setTimeout(() => div.remove(), 3000);
+}
+
+/* Random offers */
+setInterval(() => {
+    const offers = [
+        "💳 Upgrade to Apollo Black",
+        "🔥 5% Cashback Activated",
+        "⚡ Instant Loan Approved"
+    ];
+    showOffer(offers[Math.floor(Math.random() * offers.length)]);
+}, 8000);
+</script>
+
+</body>
+</html>
