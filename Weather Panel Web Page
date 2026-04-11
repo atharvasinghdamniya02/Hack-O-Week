@@ -2,115 +2,189 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quantum Meteorological Matrix</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Quantum Meteorological Matrix X</title>
 
-<!-- FONTS -->
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-
-/* ===== GLOBAL ===== */
-body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: #05070d;
-    color: white;
-    overflow-x: hidden;
+body{
+margin:0;
+font-family:'Inter',sans-serif;
+background:#05070d;
+color:white;
+overflow:hidden;
 }
 
-/* ===== HEX PARTICLE FIELD ===== */
-#bg {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+/* BACKGROUND PARTICLES */
+#bg{
+position:fixed;
+inset:0;
+z-index:-2;
+overflow:hidden;
+}
+.hex{
+position:absolute;
+width:8px;
+height:8px;
+background:rgba(255,255,255,0.05);
+clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0% 50%);
+animation:drift linear infinite;
+}
+@keyframes drift{
+from{transform:translateY(100vh) translateX(0);}
+to{transform:translateY(-120vh) translateX(40vw);}
 }
 
-.hex {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: rgba(255,255,255,0.05);
-    clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
-    animation: drift 20s linear infinite;
+/* MAIN */
+.container{
+display:flex;
+gap:20px;
+padding:20px;
+height:100vh;
+box-sizing:border-box;
 }
 
-@keyframes drift {
-    from { transform: translateY(0) translateX(0);}
-    to { transform: translateY(-120vh) translateX(50vw);}
+/* CITY COLUMN */
+.city{
+flex:1;
+display:flex;
+flex-direction:column;
+gap:15px;
+transition:0.5s ease;
+position:relative;
+}
+.city:hover{
+flex:1.4;
 }
 
-/* ===== LAYOUT ===== */
-.container {
-    display: flex;
-    gap: 20px;
-    padding: 20px;
+/* BIG CITY TITLES */
+.city-title{
+font-family:'Space Grotesk',sans-serif;
+font-size:56px;
+font-weight:700;
+margin:0;
+letter-spacing:2px;
+text-transform:uppercase;
+line-height:1;
+text-shadow:
+0 0 10px currentColor,
+0 0 20px rgba(255,255,255,0.15),
+0 0 40px currentColor;
+opacity:0.95;
+animation:glowPulse 3s infinite ease-in-out;
 }
 
-/* ===== CITY COLUMN ===== */
-.city {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    transition: 0.5s ease-in-out;
+@keyframes glowPulse{
+0%,100%{
+transform:scale(1);
+opacity:0.9;
 }
-.city:hover { flex: 1.3; }
-
-/* ===== TILE ===== */
-.tile {
-    padding: 15px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    transition: 0.5s ease-in-out;
+50%{
+transform:scale(1.03);
+opacity:1;
+}
 }
 
-/* ===== COLORS ===== */
-.nagpur { color: #facc15; }
-.delhi { color: #22c55e; }
-.mumbai { color: #38bdf8; }
-
-/* ===== TEMP ===== */
-.temp {
-    font-size: 40px;
-    animation: pulse 3s infinite;
+/* RADAR */
+.radar{
+position:absolute;
+top:50px;
+right:20px;
+width:120px;
+height:120px;
+border-radius:50%;
+border:2px solid rgba(255,255,255,0.05);
+animation:radarPulse 3s infinite;
 }
-@keyframes pulse {
-    0%,100% { transform: scale(1);}
-    50% { transform: scale(1.05);}
+.radar::before,.radar::after{
+content:"";
+position:absolute;
+inset:15px;
+border-radius:50%;
+border:2px solid rgba(255,255,255,0.05);
 }
-
-/* ===== BAR ===== */
-.bar {
-    height: 8px;
-    background: #222;
-    border-radius: 10px;
-    overflow: hidden;
+.radar::after{
+inset:30px;
 }
-.fill {
-    height: 100%;
-    transition: width 0.5s ease-in-out;
-}
-
-/* ===== GAUGE ===== */
-.gauge {
-    display: none;
-}
-.tile:hover .bar { display: none; }
-.tile:hover .gauge { display: block; }
-
-svg {
-    width: 100%;
-    height: 80px;
+@keyframes radarPulse{
+0%{transform:scale(1);opacity:0.4;}
+50%{transform:scale(1.08);opacity:1;}
+100%{transform:scale(1);opacity:0.4;}
 }
 
+/* TILE */
+.tile{
+padding:18px;
+border-radius:20px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,0.12);
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+transition:0.5s ease;
+position:relative;
+overflow:hidden;
+}
+.tile:hover{
+transform:translateY(-5px) scale(1.02);
+box-shadow:0 0 30px rgba(255,255,255,0.08);
+}
+
+/* CITY COLORS */
+.nagpur{color:#facc15;}
+.delhi{color:#22c55e;}
+.mumbai{color:#38bdf8;}
+
+/* TEMP */
+.temp{
+font-size:48px;
+font-weight:bold;
+animation:pulse 2s infinite;
+text-shadow:0 0 15px currentColor;
+}
+@keyframes pulse{
+0%,100%{transform:scale(1);}
+50%{transform:scale(1.05);}
+}
+
+/* BARS */
+.bar{
+height:10px;
+background:#222;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px;
+}
+.fill{
+height:100%;
+border-radius:20px;
+animation:grow 1.5s ease;
+}
+@keyframes grow{
+from{width:0;}
+}
+
+/* RAIN DROPS */
+.drop{
+position:absolute;
+width:2px;
+height:12px;
+background:rgba(255,255,255,0.2);
+animation:rain linear infinite;
+}
+@keyframes rain{
+from{transform:translateY(-20px);}
+to{transform:translateY(120vh);}
+}
+
+/* CLOCK */
+.clock{
+font-size:14px;
+opacity:0.7;
+margin-top:5px;
+}
 </style>
 </head>
-
 <body>
 
 <div id="bg"></div>
@@ -119,97 +193,100 @@ svg {
 
 <script>
 
-/* ===== CREATE PARTICLES ===== */
-for(let i=0;i<120;i++){
-    let h = document.createElement("div");
-    h.className="hex";
-    h.style.left=Math.random()*100+"vw";
-    h.style.top=Math.random()*100+"vh";
-    h.style.animationDuration = (10+Math.random()*20)+"s";
-    document.getElementById("bg").appendChild(h);
+/* PARTICLES */
+for(let i=0;i<150;i++){
+let h=document.createElement("div");
+h.className="hex";
+h.style.left=Math.random()*100+"vw";
+h.style.top=Math.random()*100+"vh";
+h.style.animationDuration=(10+Math.random()*20)+"s";
+document.getElementById("bg").appendChild(h);
 }
 
-/* ===== RANDOM DATA ===== */
-function rand(min,max){ return Math.floor(Math.random()*(max-min)+min); }
+/* RAIN */
+for(let i=0;i<50;i++){
+let d=document.createElement("div");
+d.className="drop";
+d.style.left=Math.random()*100+"vw";
+d.style.animationDuration=(1+Math.random()*2)+"s";
+document.body.appendChild(d);
+}
 
-const cities = [
-    {name:"Nagpur", class:"nagpur"},
-    {name:"Delhi", class:"delhi"},
-    {name:"Mumbai", class:"mumbai"}
+/* RANDOM */
+function rand(min,max){
+return Math.floor(Math.random()*(max-min)+min);
+}
+
+const cities=[
+{name:"Nagpur",class:"nagpur"},
+{name:"Delhi",class:"delhi"},
+{name:"Mumbai",class:"mumbai"}
 ];
 
-const app = document.getElementById("app");
+const app=document.getElementById("app");
 
 cities.forEach(city=>{
-    let temp = rand(28,40);
-    let wind = rand(5,25);
-    let aqi = rand(50,200);
-    let uv = rand(1,11);
-    let rain = rand(0,100);
-    let feels = temp + rand(-2,3);
-    let pressure = rand(990,1020);
-    let cloud = rand(10,90);
 
-    let col = document.createElement("div");
-    col.className = "city "+city.class;
+let temp=rand(28,40);
+let wind=rand(5,25);
+let aqi=rand(50,200);
+let uv=rand(1,11);
+let rain=rand(0,100);
+let feels=temp+rand(-2,3);
+let pressure=rand(990,1020);
+let cloud=rand(10,90);
 
-    col.innerHTML = `
-        <div class="tile">
-            <h2>${city.name}</h2>
-            <div class="temp">${temp}°C</div>
-            <p>Wind: ${wind} km/h → NE</p>
-        </div>
+let col=document.createElement("div");
+col.className="city "+city.class;
 
-        <div class="tile">
-            <h3>AQI ${aqi}</h3>
-            <div class="bar">
-                <div class="fill" style="width:${aqi/2}% ; background:${aqi>150?'red':'orange'}"></div>
-            </div>
+col.innerHTML=`
+<div class="radar"></div>
 
-            <div class="gauge">
-                <svg>
-                    <circle cx="50" cy="40" r="30" stroke="#333" stroke-width="8" fill="none"/>
-                    <circle cx="50" cy="40" r="30"
-                        stroke="currentColor"
-                        stroke-width="8"
-                        fill="none"
-                        stroke-dasharray="188"
-                        stroke-dashoffset="${188-(aqi/200)*188}"
-                        stroke-linecap="round"/>
-                </svg>
-            </div>
-        </div>
+<div class="tile">
+<h2 class="city-title">${city.name}</h2>
+<div class="clock" id="${city.name}-clock"></div>
+<div class="temp">${temp}°C</div>
+<p>Wind: ${wind} km/h → NE</p>
+</div>
 
-        <div class="tile">
-            <h3>UV ${uv}</h3>
-            <div class="bar">
-                <div class="fill" style="width:${uv*10}% ; background:yellow"></div>
-            </div>
+<div class="tile">
+<h3>AQI ${aqi}</h3>
+<div class="bar">
+<div class="fill" style="width:${aqi/2}%;background:${aqi>150?'red':'orange'}"></div>
+</div>
+</div>
 
-            <div class="gauge">
-                <svg>
-                    <circle cx="50" cy="40" r="30" stroke="#333" stroke-width="8" fill="none"/>
-                    <circle cx="50" cy="40" r="30"
-                        stroke="currentColor"
-                        stroke-width="8"
-                        fill="none"
-                        stroke-dasharray="188"
-                        stroke-dashoffset="${188-(uv/11)*188}"
-                        stroke-linecap="round"/>
-                </svg>
-            </div>
-        </div>
+<div class="tile">
+<h3>UV ${uv}</h3>
+<div class="bar">
+<div class="fill" style="width:${uv*10}%;background:yellow"></div>
+</div>
+</div>
 
-        <div class="tile">Rainfall: ${rain}%</div>
-        <div class="tile">Feels Like: ${feels}°C</div>
-        <div class="tile">Pressure: ${pressure} hPa</div>
-        <div class="tile">Cloud Cover: ${cloud}%</div>
-    `;
+<div class="tile">Rainfall: ${rain}%</div>
+<div class="tile">Feels Like: ${feels}°C</div>
+<div class="tile">Pressure: ${pressure} hPa</div>
+<div class="tile">Cloud Cover: ${cloud}%</div>
+`;
 
-    app.appendChild(col);
+app.appendChild(col);
 });
 
-</script>
+/* LIVE CLOCKS */
+function updateClocks(){
+const now=new Date().toLocaleTimeString();
+cities.forEach(city=>{
+document.getElementById(city.name+"-clock").innerText=now;
+});
+}
+setInterval(updateClocks,1000);
+updateClocks();
 
+</script>
 </body>
 </html>
+
+
+   
+
+      
